@@ -1,0 +1,3 @@
+WHITESPACE = " "
+EMPTY = ""
+COMMA = ","
