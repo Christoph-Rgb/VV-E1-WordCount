@@ -9,11 +9,12 @@ from VV_E1_WordCount.InputReader import FileReader, CommandLineReader, InputRead
 FILENAME = "./test.file"
 INPUT = "This is a test file. It contains words that should be counted correctly. \n Hopefully it does so"
 WRONG_FILENAME = "./not_existing.file"
+EMPTY = ""
 
 # dummy test of the abstract class
 class InputReaderTest(unittest.TestCase):
     def test(self):
-        reader = InputReader()
+        reader = InputReader(EMPTY)
         reader.readInput()
 
 # tests for command line reader

@@ -2,6 +2,10 @@ from pathlib import Path
 
 class InputReader:
     identifier: str = ""
+    
+    def __init__(self, identifier):
+        self.identifier = identifier
+    
     def readInput(self):
         pass
 

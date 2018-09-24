@@ -1,6 +1,9 @@
-from InputReader import InputReader
+import sys
+sys.path.append('/Users/cs/Dropbox/Studium/Master/Semester 3/03_VV')
+from VV_E1_WordCount.InputReader import InputReader
+import VV_E1_WordCount.constants as constants
+
 from typing import List, TypeVar, Generic
-import constants
 
 # generic variable for the input reader
 T = TypeVar('T')
@@ -16,10 +19,10 @@ class SourceFromCommandLineLoader(Generic[T], SourceLoader):
 
     def __init__(self, inputReaderType: T, inputReader: InputReader):
         self.inputReader = inputReader
-        self.value = inputReaderType
+        self.sourceType = inputReaderType
 
     def loadSources(self):
-        sources: List[str] = []
+        sources: List[self.sourceType] = []
 
         #read sources until nothing is input
         sourcePath = self.inputReader.readInput()
@@ -27,7 +30,7 @@ class SourceFromCommandLineLoader(Generic[T], SourceLoader):
 
             # create reader for the source and append it to the list of sources
             try:
-                sourceReader = self.value(sourcePath)
+                sourceReader = self.sourceType(sourcePath)
                 sources.append(sourceReader)
             except AssertionError:
                 print("source does not exist")
