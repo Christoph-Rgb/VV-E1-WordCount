@@ -1,7 +1,10 @@
+import sys
+sys.path.append('/Users/cs/Dropbox/Studium/Master/Semester 3/03_VV')
+
 import os
-import constants
+import VV_E1_WordCount.constants as constants
 from typing import List, TypeVar, Generic
-from InputReader import InputReader
+from VV_E1_WordCount.InputReader import InputReader
 
 # generic variable for the input reader
 T = TypeVar('T')
@@ -17,6 +20,9 @@ class InputCleaner:
         self.symbolsToStrip: List[str] = self.loadSymbolsToStrip(symbolsToStripPath)
 
     def cleanInput(self, input: str):
+
+        # cast to lower case
+        input = input.lower()
 
         # replace line breaks by whitespace
         input = input.replace(os.linesep, constants.WHITESPACE)
@@ -38,8 +44,11 @@ class InputCleaner:
         try:
             wordsToExcludeInputReader = self.inputReaderType(wordsToExcludePath)
             words = wordsToExcludeInputReader.readInput()
+            words = words.lower()
             words = words.replace(constants.WHITESPACE, constants.EMPTY)
-            wordsToExclude.extend(words.split(constants.COMMA))  
+            splittedWords = words.split(constants.COMMA)
+            splittedWords.remove("")
+            wordsToExclude.extend(splittedWords)
         
         finally:
             return wordsToExclude
