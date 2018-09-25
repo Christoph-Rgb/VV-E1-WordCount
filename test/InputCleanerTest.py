@@ -12,16 +12,18 @@ INPUT = "INPUT"
 SYMBOLS = ".,;:!"
 WORDS = "der, die, das,"
 TEXT = "Der. das. die, wieso weshalb warum"
-CLEANED_TEXT = "das wieso weshalb warum"
+CLEANED_TEXT = "der das die wieso weshalb warum"
 
 class InputCleanerTest(unittest.TestCase):
 
     @patch('VV_E1_WordCount.InputReader.InputReader.readInput', lambda x: SYMBOLS)
     def test_loadSymbolsToStrip_returnsSymbols(self):
         # arrange
-        inputCleaner: InputCleaner = InputCleaner(inputReaderType = InputReader, wordsToExcludePath = INPUT, symbolsToStripPath = INPUT)
+        symbolsReader = InputReader(EMPTY)
+        wordsReader = InputReader(EMPTY)
         # act
-        symbols = inputCleaner.loadSymbolsToStrip(EMPTY)
+        inputCleaner: InputCleaner = InputCleaner(wordsReader, symbolsReader)
+        symbols = inputCleaner.symbolsToStrip
 
         # assert
         self.assertEqual(len(symbols), 5)
@@ -29,9 +31,12 @@ class InputCleanerTest(unittest.TestCase):
     @patch('VV_E1_WordCount.InputReader.InputReader.readInput', lambda x: EMPTY)
     def test_loadSymbolsToStrip_returnsEmptyWhenNothingToRead(self):
         # arrange
-        inputCleaner: InputCleaner = InputCleaner(inputReaderType = InputReader, wordsToExcludePath = INPUT, symbolsToStripPath = INPUT)
+        symbolsReader = InputReader(EMPTY)
+        wordsReader = InputReader(EMPTY)
+
         # act
-        symbols = inputCleaner.loadSymbolsToStrip(EMPTY)
+        inputCleaner: InputCleaner = InputCleaner(wordsReader, symbolsReader)
+        symbols = inputCleaner.symbolsToStrip
 
         # assert
         self.assertEqual(symbols, [])
@@ -39,9 +44,12 @@ class InputCleanerTest(unittest.TestCase):
     @patch('VV_E1_WordCount.InputReader.InputReader.readInput', lambda x: WORDS)
     def test_loadWordsToExclude_returnsSymbols(self):
         # arrange
-        inputCleaner: InputCleaner = InputCleaner(inputReaderType = InputReader, wordsToExcludePath = INPUT, symbolsToStripPath = INPUT)
+        symbolsReader = InputReader(EMPTY)
+        wordsReader = InputReader(EMPTY)
+        
         # act
-        words = inputCleaner.loadWordsToExclude(EMPTY)
+        inputCleaner: InputCleaner = InputCleaner(wordsReader, symbolsReader)
+        words = inputCleaner.wordsToExclude
 
         # assert
         self.assertEqual(len(words), 3)
@@ -49,16 +57,22 @@ class InputCleanerTest(unittest.TestCase):
     @patch('VV_E1_WordCount.InputReader.InputReader.readInput', lambda x: EMPTY)
     def test_loadWordsToExclude_returnsEmptyWhenNothingToRead(self):
         # arrange
-        inputCleaner: InputCleaner = InputCleaner(inputReaderType = InputReader, wordsToExcludePath = INPUT, symbolsToStripPath = INPUT)
+        symbolsReader = InputReader(EMPTY)
+        wordsReader = InputReader(EMPTY)
+        
         # act
-        words = inputCleaner.loadWordsToExclude(EMPTY)
+        inputCleaner: InputCleaner = InputCleaner(wordsReader, symbolsReader)
+        words = inputCleaner.wordsToExclude
 
         # assert
         self.assertEqual(words, [])
 
     def test_cleanInputCleansInputCorrectly(self):
         # arrange
-        inputCleaner: InputCleaner = InputCleaner(inputReaderType = InputReader, wordsToExcludePath = INPUT, symbolsToStripPath = INPUT)
+        symbolsReader = InputReader(EMPTY)
+        wordsReader = InputReader(EMPTY)
+        inputCleaner: InputCleaner = InputCleaner(wordsReader, symbolsReader)
+
         inputCleaner.symbolsToStrip = [',', '.']
         inputCleaner.wordsToExclude = ["der", "die"]
 

@@ -27,12 +27,6 @@ class InputCleaner:
         for symbol in self.symbolsToStrip:
             input = input.replace(symbol, constants.WHITESPACE)
 
-        # # replace words to be excluded by whitespace
-        # for word in self.wordsToExclude:
-        #     input = input.replace(" {0} ".format(word), constants.WHITESPACE)
-        #     input = input.replace("{0} ".format(word), constants.WHITESPACE)
-        #     input = input.replace(" {0}".format(word), constants.WHITESPACE)
-
         return input
 
     def loadWordsToExclude(self, wordsToExcludeInputReader: InputReader):
