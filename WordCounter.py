@@ -1,12 +1,15 @@
 import sys
+sys.path.append('/Users/cs/Dropbox/Studium/Master/Semester 3/03_VV')
+
 import os
-import constants
+import VV_E1_WordCount.constants as constants
 from typing import List
 from collections import defaultdict
-from InputReader import InputReader, FileReader, CommandLineReader
+from VV_E1_WordCount.InputReader import InputReader, FileReader, CommandLineReader
 from pathlib import Path
-from InputCleaner import InputCleaner
-from SourceLoader import SourceFromCommandLineLoader, SourceLoader
+from VV_E1_WordCount.InputCleaner import InputCleaner
+from VV_E1_WordCount.SourceLoader import SourceFromCommandLineLoader, SourceLoader
+from VV_E1_WordCount.OutputWriter import OutputToConsoleWriter
 
 class WordCounter:
     """
@@ -21,6 +24,9 @@ class WordCounter:
         # load the sources to read from
         sources: List[InputReader] = self.sourceLoader.loadSources()
 
+        # store for the word count for every source that was read
+        wordCount = {}
+
         for source in sources:
             # read and clean the input from the source
             input = source.readInput()
@@ -32,11 +38,9 @@ class WordCounter:
                 if word != constants.EMPTY:
                     wordsDict[word] += 1
 
-            # output words and appearances
-            print("Word count for file '{0}'".format(source.identifier))
-            for key in wordsDict:
-                print("{0}: {1} time(s)".format(key, wordsDict[key]))
-            print()
+            wordCount[source.identifier] = wordsDict
+
+        return wordCount
 
 # try to get the location of the file configuring the words to exclude
 wordsToExcludePath = ""
@@ -54,4 +58,8 @@ sourceLoader: SourceFromCommandLineLoader = SourceFromCommandLineLoader(inputRea
 wordCounter: WordCounter = WordCounter(inputCleaner, sourceLoader)
 
 # count the words
-wordCounter.countWords()
+wordCount = wordCounter.countWords()
+
+# wirte output to console
+outputWriter = OutputToConsoleWriter()
+outputWriter.printOutput(wordCount)
