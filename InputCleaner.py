@@ -6,18 +6,14 @@ import VV_E1_WordCount.constants as constants
 from typing import List, TypeVar, Generic
 from VV_E1_WordCount.InputReader import InputReader
 
-# generic variable for the input reader
-T = TypeVar('T')
-
 class InputCleaner:
     """
     Cleans the input by removing line breaks, removing words that are to be excluded and symbols that are to be stripped
     """
 
-    def __init__(self, inputReaderType: T, wordsToExcludePath: str, symbolsToStripPath: str):
-        self.inputReaderType = inputReaderType
-        self.wordsToExclude: List[str] = self.loadWordsToExclude(wordsToExcludePath)
-        self.symbolsToStrip: List[str] = self.loadSymbolsToStrip(symbolsToStripPath)
+    def __init__(self, wordsToExcludeInputReader: InputReader, symbolsToStripInputReader: InputReader):
+        self.wordsToExclude: List[str] = self.loadWordsToExclude(wordsToExcludeInputReader)
+        self.symbolsToStrip: List[str] = self.loadSymbolsToStrip(symbolsToStripInputReader)
 
     def cleanInput(self, input: str):
 
@@ -31,36 +27,38 @@ class InputCleaner:
         for symbol in self.symbolsToStrip:
             input = input.replace(symbol, constants.WHITESPACE)
 
-        # replace words to be excluded by whitespace
-        for word in self.wordsToExclude:
-            input = input.replace(word, constants.WHITESPACE)
+        # # replace words to be excluded by whitespace
+        # for word in self.wordsToExclude:
+        #     input = input.replace(" {0} ".format(word), constants.WHITESPACE)
+        #     input = input.replace("{0} ".format(word), constants.WHITESPACE)
+        #     input = input.replace(" {0}".format(word), constants.WHITESPACE)
 
         return input
 
-    def loadWordsToExclude(self, wordsToExcludePath: str):
+    def loadWordsToExclude(self, wordsToExcludeInputReader: InputReader):
         wordsToExclude: List[str] = []
 
         # try to load words that are to be excluded
         try:
-            wordsToExcludeInputReader = self.inputReaderType(wordsToExcludePath)
             words = wordsToExcludeInputReader.readInput()
             words = words.lower()
             words = words.replace(constants.WHITESPACE, constants.EMPTY)
             splittedWords = words.split(constants.COMMA)
-            splittedWords.remove("")
+            if constants.EMPTY in splittedWords:
+                splittedWords.remove(constants.EMPTY)
             wordsToExclude.extend(splittedWords)
         
         finally:
             return wordsToExclude
 
-    def loadSymbolsToStrip(self, symbolsToStripPath: str):
+    def loadSymbolsToStrip(self, symbolsToStripInputReader: InputReader):
         symbolsToStrip: List[str] = []
 
         # try to load symbols that are to be stripped from the input 
         try:
-            symbolsToStripInputReader = self.inputReaderType(symbolsToStripPath)
             symbols = symbolsToStripInputReader.readInput()
             for symbol in symbols:
-                symbolsToStrip.append(symbol)
+                if symbol != constants.EMPTY:
+                    symbolsToStrip.append(symbol)
         finally:
             return symbolsToStrip
