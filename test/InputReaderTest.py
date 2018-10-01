@@ -50,22 +50,22 @@ class FileReaderTest(unittest.TestCase):
     def tearDown(self):
         self.removeTestFile()
     
-    def test_initSucceedsForString(self):
+    def test_init_SucceedsForString(self):
         _ = FileReader(FILENAME)
 
-    def test_initSucceedsForPath(self):
+    def test_init_SucceedsForPath(self):
         path = Path(FILENAME)
         _ = FileReader(path)
 
-    def test_initThrowsErrorForParameterThatIsNotStringOrPath(self):
+    def test_init_ThrowsErrorForParameterThatIsNotStringOrPath(self):
         with self.assertRaises(ValueError):
             _ = FileReader(4711)
 
-    def test_initThrowsErrorForNotExistingFile(self):
+    def test_init_ThrowsErrorForNotExistingFile(self):
         with self.assertRaises(AssertionError):
             _ = FileReader(WRONG_FILENAME)
 
-    def test_readInputSucceeds(self):
+    def test_readInput_Succeeds(self):
         #arrange
         fileReader = FileReader(FILENAME)
         #act
@@ -73,7 +73,7 @@ class FileReaderTest(unittest.TestCase):
         #assert
         self.assertEqual(INPUT, input)
 
-    def test_readInputThrowsErrorForNotAccessibleFile(self):
+    def test_readInput_ThrowsErrorForNotAccessibleFile(self):
         #arrange
         fileReader = FileReader(FILENAME)
         self.removeTestFile()

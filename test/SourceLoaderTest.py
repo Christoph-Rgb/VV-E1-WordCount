@@ -18,7 +18,7 @@ class SourceLoaderTest(unittest.TestCase):
 # tests for SourceFromCommandLineLoader
 class SourceFromCommandLineLoaderTest(unittest.TestCase):
 
-    def test_returnsEmptyArrayWhenNothingIsInput(self):
+    def test_loadSources_returnsEmptyArrayWhenNothingIsInput(self):
         # arrange
         readInputMock = Mock()
         readInputMock.return_value = EMPTY
@@ -32,7 +32,7 @@ class SourceFromCommandLineLoaderTest(unittest.TestCase):
         # assert
         self.assertEqual(sources, [])
 
-    def test_returnArrayOfLengthOneForOneInput(self):
+    def test_loadSources_returnsArrayOfLengthOneForOneInput(self):
         # arrange
         readInputMock = Mock()
         readInputMock.side_effect = [INPUT, EMPTY]
@@ -47,7 +47,7 @@ class SourceFromCommandLineLoaderTest(unittest.TestCase):
         self.assertEqual(len(sources), 1)
         self.assertEqual(type(sources[0]), InputReader)
 
-    def test_returnArrayOfLength3ForThreeInputs(self):
+    def test_loadSources_returnsArrayOfLength3ForThreeInputs(self):
         # arrange
         readInputMock = Mock()
         readInputMock.side_effect = [INPUT, INPUT, INPUT, EMPTY]
@@ -63,7 +63,7 @@ class SourceFromCommandLineLoaderTest(unittest.TestCase):
         for source in sources:
             self.assertEqual(type(source), InputReader)
 
-    def test_catchesFileNotFoundAssertion(self):
+    def test_loadSources_returnsEmptyListForFileNotFoundAssertion(self):
         # arrange
         readInputMock = Mock()
         readInputMock.side_effect = [INPUT, EMPTY]

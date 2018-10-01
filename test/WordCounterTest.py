@@ -38,7 +38,7 @@ OUTPUT2[FILE2]["wos"] = 1
 
 class WordCounterTest(unittest.TestCase):
 
-    def test_countsCorrectlyForNoFile(self):
+    def test_countWords_countsCorrectlyForNoFile(self):
         # assert
         sourceLoader = SourceLoader()
         sourceLoaderMock = Mock()
@@ -54,7 +54,7 @@ class WordCounterTest(unittest.TestCase):
         # assert
         self.assertEqual(output, {})
 
-    def test_countsCorrectlyForEmptyFile(self):
+    def test_countWords_countsCorrectlyForEmptyFile(self):
         # arrange
         inputReader = InputReader(FILE)
         inputReaderMock = Mock()
@@ -78,7 +78,7 @@ class WordCounterTest(unittest.TestCase):
         expected[FILE] = defaultdict(int)
         self.assertEqual(output, expected)
 
-    def test_countsCorrectlyForOneFile(self):
+    def test_countWords_countsCorrectlyForOneFile(self):
         # arrange
         inputReader = InputReader(FILE)
         inputReaderMock = Mock()
@@ -105,7 +105,7 @@ class WordCounterTest(unittest.TestCase):
         # assert
         self.assertEqual(output, OUTPUT)
     
-    def test_countsCorrectlyForTwoFiles(self):
+    def test_countWords_countsCorrectlyForTwoFiles(self):
         # arrange
         inputReader = InputReader(FILE)
         inputReaderMock = Mock()
