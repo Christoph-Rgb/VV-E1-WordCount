@@ -10,6 +10,7 @@ from VV_E1_WordCount.InputReader import InputReader
 from VV_E1_WordCount.WordCounter import WordCounter
 from VV_E1_WordCount.InputCleaner import InputCleaner
 
+WORDS_TO_EXCLUDE = "das, bou"
 
 EMPTY = ""
 INPUT = "INPUT"
@@ -19,20 +20,17 @@ OUTPUT = {}
 OUTPUT[FILE] = defaultdict(int)
 OUTPUT[FILE]["der"] = 5
 OUTPUT[FILE]["die"] = 2
-OUTPUT[FILE]["das"] = 2
 
 FILE2 = "file2.file"
 TEXT2 = "a bou mou dou wos a bou dou mou"
 OUTPUT2 = {}
-OUTPUT2[FILE2] = defaultdict(int)
 
 OUTPUT2[FILE] = defaultdict(int)
 OUTPUT2[FILE]["der"] = 5
 OUTPUT2[FILE]["die"] = 2
-OUTPUT2[FILE]["das"] = 2
 
+OUTPUT2[FILE2] = defaultdict(int)
 OUTPUT2[FILE2]["a"] = 2
-OUTPUT2[FILE2]["bou"] = 2
 OUTPUT2[FILE2]["mou"] = 2
 OUTPUT2[FILE2]["dou"] = 2
 OUTPUT2[FILE2]["wos"] = 1
@@ -44,7 +42,7 @@ class WordCounterTest(unittest.TestCase):
         # assert
         sourceLoader = SourceLoader()
         sourceLoaderMock = Mock()
-        sourceLoaderMock.side_effect = [[]]
+        sourceLoaderMock.return_value = []
         sourceLoader.loadSources = sourceLoaderMock
 
         inputCleaner = InputCleaner(InputReader(EMPTY), InputReader(EMPTY))
@@ -89,10 +87,15 @@ class WordCounterTest(unittest.TestCase):
 
         sourceLoader = SourceLoader()
         sourceLoaderMock = Mock()
-        sourceLoaderMock.side_effect = [[inputReader]]
+        sourceLoaderMock.return_value = [inputReader]
         sourceLoader.loadSources = sourceLoaderMock
 
-        inputCleaner = InputCleaner(InputReader(EMPTY), InputReader(EMPTY))
+        wordsToExcludeInputReader = InputReader(EMPTY)
+        wordsToExcludeInputReaderMock = Mock()
+        wordsToExcludeInputReaderMock.return_value = WORDS_TO_EXCLUDE
+        wordsToExcludeInputReader.readInput = wordsToExcludeInputReaderMock
+
+        inputCleaner = InputCleaner(wordsToExcludeInputReader, InputReader(EMPTY))
 
         wordCounter = WordCounter(inputCleaner, sourceLoader)
 
@@ -114,13 +117,17 @@ class WordCounterTest(unittest.TestCase):
         inputReaderMock2.return_value = TEXT2
         inputReader2.readInput = inputReaderMock2
 
-
         sourceLoader = SourceLoader()
         sourceLoaderMock = Mock()
-        sourceLoaderMock.side_effect = [[inputReader, inputReader2]]
+        sourceLoaderMock.return_value = [inputReader, inputReader2]
         sourceLoader.loadSources = sourceLoaderMock
 
-        inputCleaner = InputCleaner(InputReader(EMPTY), InputReader(EMPTY))
+        wordsToExcludeInputReader = InputReader(EMPTY)
+        wordsToExcludeInputReaderMock = Mock()
+        wordsToExcludeInputReaderMock.return_value = WORDS_TO_EXCLUDE
+        wordsToExcludeInputReader.readInput = wordsToExcludeInputReaderMock
+
+        inputCleaner = InputCleaner(wordsToExcludeInputReader, InputReader(EMPTY))
 
         wordCounter = WordCounter(inputCleaner, sourceLoader)
 

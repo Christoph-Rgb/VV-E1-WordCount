@@ -51,19 +51,19 @@ class FileReaderTest(unittest.TestCase):
         self.removeTestFile()
     
     def test_initSucceedsForString(self):
-        fileReader = FileReader(FILENAME)
+        _ = FileReader(FILENAME)
 
     def test_initSucceedsForPath(self):
         path = Path(FILENAME)
-        fileReader = FileReader(path)
+        _ = FileReader(path)
 
     def test_initThrowsErrorForParameterThatIsNotStringOrPath(self):
         with self.assertRaises(ValueError):
-            fileReader = FileReader(4711)
+            _ = FileReader(4711)
 
     def test_initThrowsErrorForNotExistingFile(self):
         with self.assertRaises(AssertionError):
-            fileReader = FileReader(WRONG_FILENAME)
+            _ = FileReader(WRONG_FILENAME)
 
     def test_readInputSucceeds(self):
         #arrange

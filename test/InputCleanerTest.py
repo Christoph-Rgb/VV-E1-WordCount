@@ -12,28 +12,46 @@ WHITESPACE = " "
 INPUT = "INPUT"
 SYMBOLS = ".,;:!"
 WORDS = "der, die, das,"
-TEXT = "Der. das. die, wieso weshalb warum"
+TEXT = "Der. das. die, wieso ! weshalb..warum \n"
 CLEANED_TEXT = "der das die wieso weshalb warum"
 
 class InputCleanerTest(unittest.TestCase):
 
-    @patch('VV_E1_WordCount.InputReader.InputReader.readInput', lambda x: SYMBOLS)
+    # helper method raising an error
+    def raiseValueError(self):
+        raise(ValueError("test"))
+
     def test_loadSymbolsToStrip_returnsSymbols(self):
         # arrange
+        readSymbolsMock = Mock()
+        readSymbolsMock.return_value = SYMBOLS
         symbolsReader = InputReader(EMPTY)
+        symbolsReader.readInput = readSymbolsMock
+
+        wordReaderMock = Mock()
+        wordReaderMock.return_value = EMPTY
         wordsReader = InputReader(EMPTY)
+        wordsReader.readInput = wordReaderMock
+
         # act
         inputCleaner: InputCleaner = InputCleaner(wordsReader, symbolsReader)
         symbols = inputCleaner.symbolsToStrip
 
         # assert
         self.assertEqual(len(symbols), 5)
+        self.assertEqual(symbols, [".", ",", ";", ":", "!"])
 
-    @patch('VV_E1_WordCount.InputReader.InputReader.readInput', lambda x: EMPTY)
     def test_loadSymbolsToStrip_returnsEmptyWhenNothingToRead(self):
         # arrange
+        readSymbolsMock = Mock()
+        readSymbolsMock.return_value = EMPTY
         symbolsReader = InputReader(EMPTY)
+        symbolsReader.readInput = readSymbolsMock
+
+        wordReaderMock = Mock()
+        wordReaderMock.return_value = EMPTY
         wordsReader = InputReader(EMPTY)
+        wordsReader.readInput = wordReaderMock
 
         # act
         inputCleaner: InputCleaner = InputCleaner(wordsReader, symbolsReader)
@@ -42,11 +60,36 @@ class InputCleanerTest(unittest.TestCase):
         # assert
         self.assertEqual(symbols, [])
 
-    @patch('VV_E1_WordCount.InputReader.InputReader.readInput', lambda x: WORDS)
-    def test_loadWordsToExclude_returnsSymbols(self):
+    def test_loadSymbolsToStrip_returnsEmptyWhenErrorOccurs(self):
+        # arrange
+        readSymbolsMock = Mock()
+        readSymbolsMock.side_effect = [AssertionError]
+        symbolsReader = InputReader(EMPTY)
+        symbolsReader.readInput = readSymbolsMock
+
+        wordReaderMock = Mock()
+        wordReaderMock.return_value = EMPTY
+        wordsReader = InputReader(EMPTY)
+        wordsReader.readInput = wordReaderMock
+
+        # act
+        inputCleaner: InputCleaner = InputCleaner(wordsReader, symbolsReader)
+        symbols = inputCleaner.symbolsToStrip
+
+        # assert
+        self.assertEqual(symbols, [])
+
+    def test_loadWordsToExclude_returnsWords(self):
         # arrange
         symbolsReader = InputReader(EMPTY)
+        symbolsReaderMock = Mock()
+        symbolsReader.return_value = EMPTY
+        symbolsReader.readInput = symbolsReaderMock
+
         wordsReader = InputReader(EMPTY)
+        wordsReaderMock = Mock()
+        wordsReaderMock.return_value = WORDS
+        wordsReader.readInput = wordsReaderMock
         
         # act
         inputCleaner: InputCleaner = InputCleaner(wordsReader, symbolsReader)
@@ -54,12 +97,38 @@ class InputCleanerTest(unittest.TestCase):
 
         # assert
         self.assertEqual(len(words), 3)
+        self.assertEqual(words, ["der", "die", "das"])
 
-    @patch('VV_E1_WordCount.InputReader.InputReader.readInput', lambda x: EMPTY)
     def test_loadWordsToExclude_returnsEmptyWhenNothingToRead(self):
         # arrange
         symbolsReader = InputReader(EMPTY)
+        symbolsReaderMock = Mock()
+        symbolsReader.return_value = EMPTY
+        symbolsReader.readInput = symbolsReaderMock
+
         wordsReader = InputReader(EMPTY)
+        wordsReaderMock = Mock()
+        wordsReaderMock.return_value = EMPTY
+        wordsReader.readInput = wordsReaderMock
+        
+        # act
+        inputCleaner: InputCleaner = InputCleaner(wordsReader, symbolsReader)
+        words = inputCleaner.wordsToExclude
+
+        # assert
+        self.assertEqual(words, [])
+
+    def test_loadWordsToExclude_returnsEmptyOnError(self):
+        # arrange
+        symbolsReader = InputReader(EMPTY)
+        symbolsReaderMock = Mock()
+        symbolsReader.return_value = EMPTY
+        symbolsReader.readInput = symbolsReaderMock
+
+        wordsReader = InputReader(EMPTY)
+        wordsReaderMock = Mock()
+        wordsReaderMock.side_effect = [AssertionError]
+        wordsReader.readInput = wordsReaderMock
         
         # act
         inputCleaner: InputCleaner = InputCleaner(wordsReader, symbolsReader)
@@ -74,7 +143,7 @@ class InputCleanerTest(unittest.TestCase):
         wordsReader = InputReader(EMPTY)
         inputCleaner: InputCleaner = InputCleaner(wordsReader, symbolsReader)
 
-        inputCleaner.symbolsToStrip = [',', '.']
+        inputCleaner.symbolsToStrip = [',', '.', '!']
         inputCleaner.wordsToExclude = ["der", "die"]
 
         # act

@@ -15,14 +15,15 @@ class SourceLoaderTest(unittest.TestCase):
         sourceLoader = SourceLoader()
         sourceLoader.loadSources()
 
+# tests for SourceFromCommandLineLoader
 class SourceFromCommandLineLoaderTest(unittest.TestCase):
 
     def test_returnsEmptyArrayWhenNothingIsInput(self):
         # arrange
-        mock = Mock()
-        mock.side_effect = [EMPTY]
+        readInputMock = Mock()
+        readInputMock.return_value = EMPTY
         inputReader = InputReader(EMPTY)
-        inputReader.readInput = mock
+        inputReader.readInput = readInputMock
         sourceLoader = SourceFromCommandLineLoader(inputReaderType = InputReader, inputReader = inputReader)
 
         # act
@@ -33,10 +34,10 @@ class SourceFromCommandLineLoaderTest(unittest.TestCase):
 
     def test_returnArrayOfLengthOneForOneInput(self):
         # arrange
-        mock = Mock()
-        mock.side_effect = [INPUT, EMPTY]
+        readInputMock = Mock()
+        readInputMock.side_effect = [INPUT, EMPTY]
         inputReader = InputReader(EMPTY)
-        inputReader.readInput = mock
+        inputReader.readInput = readInputMock
         sourceLoader = SourceFromCommandLineLoader(inputReaderType = InputReader, inputReader = inputReader)
 
         # act
@@ -48,10 +49,10 @@ class SourceFromCommandLineLoaderTest(unittest.TestCase):
 
     def test_returnArrayOfLength3ForThreeInputs(self):
         # arrange
-        mock = Mock()
-        mock.side_effect = [INPUT, INPUT, INPUT, EMPTY]
+        readInputMock = Mock()
+        readInputMock.side_effect = [INPUT, INPUT, INPUT, EMPTY]
         inputReader = InputReader(EMPTY)
-        inputReader.readInput = mock
+        inputReader.readInput = readInputMock
         sourceLoader = SourceFromCommandLineLoader(inputReaderType = InputReader, inputReader = inputReader)
 
         # act
@@ -64,15 +65,15 @@ class SourceFromCommandLineLoaderTest(unittest.TestCase):
 
     def test_catchesFileNotFoundAssertion(self):
         # arrange
-        mock = Mock()
-        mock.side_effect = [INPUT, EMPTY]
+        readInputMock = Mock()
+        readInputMock.side_effect = [INPUT, EMPTY]
         inputReader = InputReader(EMPTY)
-        inputReader.readInput = mock
+        inputReader.readInput = readInputMock
 
-        mock2 = Mock()
-        mock2.side_effect = AssertionError
+        assertionErrorInputReaderMock = Mock()
+        assertionErrorInputReaderMock.side_effect = AssertionError
 
-        sourceLoader = SourceFromCommandLineLoader(inputReaderType = mock2, inputReader = inputReader)
+        sourceLoader = SourceFromCommandLineLoader(inputReaderType = assertionErrorInputReaderMock, inputReader = inputReader)
 
         # act
         sources = sourceLoader.loadSources()
