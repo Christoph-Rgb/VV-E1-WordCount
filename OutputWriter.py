@@ -3,7 +3,13 @@ class OutputWriter:
         pass
 
 class OutputToConsoleWriter(OutputWriter):
+    """
+    Prints the output to the console
+    """
     def printOutput(self, output):
+        """
+        Prints the output to the console
+        """
         for sourceKey in output:
             sourceWordDict = output[sourceKey]
 

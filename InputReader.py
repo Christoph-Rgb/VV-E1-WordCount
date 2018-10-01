@@ -14,6 +14,7 @@ class CommandLineReader(InputReader):
     Reads input from the command line (line by line)
     """
 
+    # text that is prompted to the user
     prompt: str = None
 
     def __init__(self, prompt: str = ""):
@@ -21,6 +22,9 @@ class CommandLineReader(InputReader):
         self.prompt = prompt
 
     def readInput(self):
+        """
+        Reads input from the command line (one line at a time)
+        """
         return input(self.prompt)
 
 class FileReader(InputReader):
@@ -28,6 +32,7 @@ class FileReader(InputReader):
     Reads input from a file (whole file at once)
     """
 
+    # path of the input to read
     path: Path = None
 
     def __init__(self, filePath):

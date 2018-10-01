@@ -5,11 +5,6 @@ sys.path.append('./')
 import VV_E1_WordCount.constants as constants
 from VV_E1_WordCount.InputReader import InputReader
 
-# sys.path.append('/Users/cs/Dropbox/Studium/Master/Semester 3/03_VV/Exercise1')
-# from VV_E1_WordCount.InputReader import InputReader
-# import VV_E1_WordCount.constants as constants
-
-
 # generic variable for the input reader
 T = TypeVar('T')
 
@@ -27,6 +22,10 @@ class SourceFromCommandLineLoader(Generic[T], SourceLoader):
         self.sourceType = inputReaderType
 
     def loadSources(self):
+        """
+        Loads sources that are to be read from the command line (line by line)
+        """
+
         sources: List[self.sourceType] = []
 
         #read sources until nothing is input

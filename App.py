@@ -15,7 +15,6 @@ if len(sys.argv) == 3:
     wordsToExcludePath = sys.argv[2]
 try:
     wordsToExcludeInputReader = FileReader(wordsToExcludePath)
-    #wordsToExcludeInputReader = FileReader("./config/words_to_exclude.csv")
 except(AssertionError):
     wordsToExcludeInputReader = InputReader(constants.EMPTY)
 
@@ -27,7 +26,6 @@ if len(sys.argv) >= 2:
     symbolsToStripPath = sys.argv[1]
 try:
     symbolsToStripInputReader = FileReader(symbolsToStripPath)
-    #symbolsToStripInputReader = FileReader("./config/symbols_to_strip")
 except(AssertionError):
     symbolsToStripInputReader = InputReader(constants.EMPTY)
 

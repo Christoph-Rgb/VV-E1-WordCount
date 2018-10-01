@@ -11,14 +11,6 @@ from VV_E1_WordCount.InputCleaner import InputCleaner
 from VV_E1_WordCount.SourceLoader import SourceFromCommandLineLoader, SourceLoader
 from VV_E1_WordCount.OutputWriter import OutputToConsoleWriter
 
-#sys.path.append('/Users/cs/Dropbox/Studium/Master/Semester 3/03_VV/Exercise1')
-
-# import VV_E1_WordCount.constants as constants
-# from VV_E1_WordCount.InputReader import InputReader, FileReader, CommandLineReader
-# from VV_E1_WordCount.InputCleaner import InputCleaner
-# from VV_E1_WordCount.SourceLoader import SourceFromCommandLineLoader, SourceLoader
-# from VV_E1_WordCount.OutputWriter import OutputToConsoleWriter
-
 class WordCounter:
     """
     Counts the number of appearances of words within several given sources
@@ -29,6 +21,10 @@ class WordCounter:
         self.sourceLoader = sourceLoader
 
     def countWords(self):
+        """
+        Counts the number of appearances of words within several given sources
+        """
+
         # load the sources to read from
         sources: List[InputReader] = self.sourceLoader.loadSources()
 
@@ -43,6 +39,7 @@ class WordCounter:
             # count the words
             wordsDict = defaultdict(int)
             for word in input.split(constants.WHITESPACE):
+                # only add the word if it is not empty and is not included in the list of words to exclude
                 if word != constants.EMPTY and word not in self.inputCleaner.wordsToExclude:
                     wordsDict[word] += 1
 
