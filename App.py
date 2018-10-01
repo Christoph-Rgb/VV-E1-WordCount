@@ -1,5 +1,5 @@
 import sys
-sys.path.append('/Users/cs/Dropbox/Studium/Master/Semester 3/03_VV')
+sys.path.append('../')
 
 from VV_E1_WordCount.InputReader import InputReader, FileReader, CommandLineReader
 from VV_E1_WordCount.InputCleaner import InputCleaner

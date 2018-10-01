@@ -1,15 +1,23 @@
 import sys
-sys.path.append('/Users/cs/Dropbox/Studium/Master/Semester 3/03_VV')
-
 import os
-import VV_E1_WordCount.constants as constants
 from typing import List
-from collections import defaultdict
-from VV_E1_WordCount.InputReader import InputReader, FileReader, CommandLineReader
 from pathlib import Path
+from collections import defaultdict
+
+sys.path.append('./')
+import VV_E1_WordCount.constants as constants
+from VV_E1_WordCount.InputReader import InputReader, FileReader, CommandLineReader
 from VV_E1_WordCount.InputCleaner import InputCleaner
 from VV_E1_WordCount.SourceLoader import SourceFromCommandLineLoader, SourceLoader
 from VV_E1_WordCount.OutputWriter import OutputToConsoleWriter
+
+#sys.path.append('/Users/cs/Dropbox/Studium/Master/Semester 3/03_VV/Exercise1')
+
+# import VV_E1_WordCount.constants as constants
+# from VV_E1_WordCount.InputReader import InputReader, FileReader, CommandLineReader
+# from VV_E1_WordCount.InputCleaner import InputCleaner
+# from VV_E1_WordCount.SourceLoader import SourceFromCommandLineLoader, SourceLoader
+# from VV_E1_WordCount.OutputWriter import OutputToConsoleWriter
 
 class WordCounter:
     """

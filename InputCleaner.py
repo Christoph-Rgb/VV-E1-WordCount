@@ -1,10 +1,14 @@
 import sys
-sys.path.append('/Users/cs/Dropbox/Studium/Master/Semester 3/03_VV')
-
 import os
-import VV_E1_WordCount.constants as constants
 from typing import List, TypeVar, Generic
+#sys.path.append('/Users/cs/Dropbox/Studium/Master/Semester 3/03_VV/Exercise1')
+
+sys.path.append('./')
 from VV_E1_WordCount.InputReader import InputReader
+import VV_E1_WordCount.constants as constants
+
+# import VV_E1_WordCount.constants as constants
+# from VV_E1_WordCount.InputReader import InputReader
 
 class InputCleaner:
     """

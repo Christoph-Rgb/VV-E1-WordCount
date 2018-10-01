@@ -1,13 +1,15 @@
 import unittest
 from unittest.mock import patch, Mock
 import sys
-sys.path.append('/Users/cs/Dropbox/Studium/Master/Semester 3/03_VV')
+from collections import defaultdict
+import io
+
+sys.path.append('../')
 from VV_E1_WordCount.SourceLoader import SourceLoader, SourceFromCommandLineLoader
 from VV_E1_WordCount.InputReader import InputReader
 from VV_E1_WordCount.WordCounter import WordCounter
 from VV_E1_WordCount.InputCleaner import InputCleaner
-from collections import defaultdict
-import io
+
 
 EMPTY = ""
 INPUT = "INPUT"

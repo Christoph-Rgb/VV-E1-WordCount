@@ -1,7 +1,8 @@
 import unittest
 from unittest.mock import patch, Mock
 import sys
-sys.path.append('/Users/cs/Dropbox/Studium/Master/Semester 3/03_VV')
+
+sys.path.append('../')
 from VV_E1_WordCount.InputReader import InputReader
 from VV_E1_WordCount.InputCleaner import InputCleaner
 

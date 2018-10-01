@@ -3,7 +3,8 @@ from unittest.mock import patch
 import os
 import sys
 from pathlib import Path
-sys.path.append('/Users/cs/Dropbox/Studium/Master/Semester 3/03_VV')
+
+sys.path.append('../')
 from VV_E1_WordCount.InputReader import FileReader, CommandLineReader, InputReader
 
 FILENAME = "./test.file"
